@@ -1,0 +1,65 @@
+<div class="container">
+  <p-toast></p-toast>
+  <div class="modal fade bd-example-modal-lg" id="storeMovieModal" tabindex="-1" role="dialog" aria-labelledby="storeMovieModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="storeMovieModalLabel">Store a new movie</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="handleSubmit()" #movieForm="ngForm">
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label class="control-label" for="name">Name</label>
+                <input
+                  pInputText
+                  required
+                  id="name"
+                  class="form-control"
+                  type="text"
+                  [(ngModel)]="movie.name"
+                  name="name"
+                  #name="ngModel"/>
+                <div [hidden]="name.valid || name.pristine" class="alert alert-danger">
+                  Name is required
+                </div>
+              </div>
+          
+              <div class="form-group col-md-6">
+                <label class="control-label" for="imdbUrl">Imdb url</label>
+                <input
+                  pInputText
+                  required
+                  id="imdbUrl"
+                  class="form-control"
+                  type="text"
+                  [(ngModel)]="movie.imdbUrl"
+                  name="imdbUrl"
+                  #imdbUrl="ngModel" />
+                <div [hidden]="imdbUrl.valid || imdbUrl.pristine" class="alert alert-danger">
+                  Imdb url is required
+                </div>
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                  <label class="control-label" for="personalRating">Personal</label>
+                  <p-rating id="personalRating" [(ngModel)]="movie.rating.personal" [cancel]="false" name="personalRating"></p-rating>
+              </div>
+              
+              <div class="form-group col-md-6">
+                <label class="control-label" for="imdbRating">Imdb: {{ movie.rating.imdb }}</label>
+                <p-slider id="imdbRating" [(ngModel)]="movie.rating.imdb" name="imdbRating"></p-slider>
+              </div>
+            </div>
+            <p-button type="submit" label="Store" class="float-right" [disabled]="!movieForm.form.valid"></p-button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
