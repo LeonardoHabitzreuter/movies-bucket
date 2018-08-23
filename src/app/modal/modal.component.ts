@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
+import { getMovies, storeMovie, removeMovie } from '../../api';
+import { firstOrNull } from '../../common'
+import { set, lensProp } from 'ramda'
 
 @Component({
   selector: 'movie-modal',
@@ -24,8 +27,8 @@ export class MovieModalComponent {
   }
   
   movie = {
-    name: 'The Shawshank Redemption',
-    imdbUrl: 'https://www.imdb.com/title/tt0111161/?pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=e31d89dd-322d-4646-8962-327b42fe94b1&pf_rd_r=GSS35W72SG006QQ95TRS&pf_rd_s=center-1&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_tt_1',
+    name: '',
+    imdbUrl: '',
     seen: false,
     genre: [],
     rating: {
@@ -35,7 +38,8 @@ export class MovieModalComponent {
   }
 
   handleSubmit(){
-    this.messageService.add({severity:'success', summary:'Success!', detail:'The movie was stored'});
-    console.log(this.movie)
+    storeMovie(set(lensProp('genre'), firstOrNull(this.movie.genre), this.movie)).then(() => {
+      this.messageService.add({severity:'success', summary:'Success!', detail:'The movie was stored'});
+    })
   }
 }
