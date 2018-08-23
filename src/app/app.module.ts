@@ -7,6 +7,8 @@ import { InputTextModule } from 'primeng/inputtext';
 import { SliderModule } from 'primeng/slider';
 import { RatingModule } from 'primeng/rating';
 import { ToastModule } from 'primeng/toast';
+import { ToggleButtonModule } from 'primeng/togglebutton';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 import { AppComponent } from './app.component';
 import { MovieModalComponent } from './modal/modal.component';
@@ -24,7 +26,9 @@ import { MovieModalComponent } from './modal/modal.component';
     InputTextModule,
     SliderModule,
     RatingModule,
-    ToastModule
+    ToastModule,
+    ToggleButtonModule,
+    MultiSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

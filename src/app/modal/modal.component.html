@@ -12,7 +12,11 @@
         <div class="modal-body">
           <form (ngSubmit)="handleSubmit()" #movieForm="ngForm">
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-5 pt-4">
+                <p-toggleButton name="seen" [(ngModel)]="movie.seen" onLabel="Seen" offLabel="Not seen" onIcon="pi pi-check" offIcon="pi pi-times"></p-toggleButton>
+              </div>
+              
+              <div class="form-group col-md-7">
                 <label class="control-label" for="name">Name</label>
                 <input
                   pInputText
@@ -27,8 +31,14 @@
                   Name is required
                 </div>
               </div>
-          
-              <div class="form-group col-md-6">
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group col-md-5">
+                <p-multiSelect name="genre" [options]="genres" [(ngModel)]="movie.genre" [panelStyle]="{minWidth:'12em'}" defaultLabel="Genre" selectionLimit=1></p-multiSelect>
+              </div>
+              
+              <div class="form-group col-md-7">
                 <label class="control-label" for="imdbUrl">Imdb url</label>
                 <input
                   pInputText
@@ -44,14 +54,14 @@
                 </div>
               </div>
             </div>
-
+            
             <div class="form-row">
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-5">
                   <label class="control-label" for="personalRating">Personal</label>
                   <p-rating id="personalRating" [(ngModel)]="movie.rating.personal" [cancel]="false" name="personalRating"></p-rating>
               </div>
               
-              <div class="form-group col-md-6">
+              <div class="form-group col-md-7">
                 <label class="control-label" for="imdbRating">Imdb: {{ movie.rating.imdb }}</label>
                 <p-slider id="imdbRating" [(ngModel)]="movie.rating.imdb" name="imdbRating"></p-slider>
               </div>
