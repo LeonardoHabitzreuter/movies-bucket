@@ -17,3 +17,9 @@ export const removeMovie = id => new Promise(async resolve => {
   updateStorage(movies.filter(movie => movie.id !== id))
   resolve('removed')
 })
+
+export const updateMovie = movie => new Promise(async resolve => {
+  const movies = await getMovies()
+  updateStorage(movies.map(p => p.id === movie.id ? movie : p))
+  resolve('updated')
+})

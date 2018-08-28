@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
-import { getMovies, storeMovie, removeMovie } from '../../api';
+import { storeMovie } from '../../api';
 import { firstOrNull } from '../../common'
 import { set, lensProp } from 'ramda'
 
@@ -33,7 +33,7 @@ export class MovieModalComponent {
     genre: [],
     rating: {
       imdb: 93,
-      personal: 4
+      personal: null
     }
   }
 

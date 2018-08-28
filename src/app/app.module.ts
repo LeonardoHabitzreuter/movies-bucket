@@ -9,14 +9,19 @@ import { RatingModule } from 'primeng/rating';
 import { ToastModule } from 'primeng/toast';
 import { ToggleButtonModule } from 'primeng/togglebutton';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { TableModule } from 'primeng/table';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DialogModule } from 'primeng/dialog';
 
 import { AppComponent } from './app.component';
 import { MovieModalComponent } from './modal/modal.component';
+import { MovieTableComponent } from './table/table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MovieModalComponent
+    MovieModalComponent,
+    MovieTableComponent
   ],
   imports: [
     FormsModule,
@@ -28,7 +33,10 @@ import { MovieModalComponent } from './modal/modal.component';
     RatingModule,
     ToastModule,
     ToggleButtonModule,
-    MultiSelectModule
+    MultiSelectModule,
+    TableModule,
+    ConfirmDialogModule,
+    DialogModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,35 @@
+<div class="container">
+  <p-toast></p-toast>
+  <p-confirmDialog></p-confirmDialog>
+  <p-dialog
+    header="How much did you like this movie?" [(visible)]="showRatingModal" [modal]="true" [responsive]="true" [width]="350" [minWidth]="200" [minY]="70" [maximizable]="true" [baseZIndex]="10000">
+    <p-rating id="personalRating" [(ngModel)]="ratingMovie.rating" [cancel]="false" name="personalRating"></p-rating>
+    <p-footer>
+        <p-button icon="pi pi-check" (click)="rateMovie()" label="Vote"></p-button>
+    </p-footer>
+  </p-dialog>
+  <p-table [value]="movies">
+    <ng-template pTemplate="header">
+        <tr>
+            <th>Seen</th>
+            <th>Name</th>
+            <th>Imdb rating</th>
+            <th>Personal rating</th>
+            <th>Genre</th>
+            <th>Imdb url</th>
+            <th>Actions:</th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-movie>
+        <tr>
+            <td><i (click)="!movie.seen ? openRatingModal(movie.id) : null" [className]="movie.seen ? 'pi pi-check' : 'pi pi-times clickable'"></i></td>
+            <td>{{movie.name}}</td>
+            <td>{{movie.rating.imdb}}</td>
+            <td><p-rating [ngModel]="movie.rating.personal" readonly="true" stars="5" [cancel]="false"></p-rating></td>
+            <td>{{movie.genre}}</td>
+            <td><a target="_blank" [href]="movie.imdbUrl">Go to IMDB page</a></td>
+            <td><i (click)="deleteMovie(movie.id)" class="pi pi-times remove clickable"></i></td>
+        </tr>
+    </ng-template>
+  </p-table>
+</div>
