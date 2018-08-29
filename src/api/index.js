@@ -7,9 +7,9 @@ const updateStorage = movies => localStorage.setItem(MOVIES_KEY, JSON.stringify(
 export const getMovies = () => new Promise(resolve => resolve(JSON.parse(localStorage.getItem(MOVIES_KEY)) || []))
 
 export const storeMovie = movie => new Promise(async resolve => {
-  const movies = await getMovies()
-  updateStorage(append(assoc('id', newId(), movie), movies))
-  resolve('saved')
+  const movieWithId = assoc('id', newId(), movie)
+  updateStorage(append(movieWithId, await getMovies()))
+  resolve(movieWithId)
 })
 
 export const removeMovie = id => new Promise(async resolve => {

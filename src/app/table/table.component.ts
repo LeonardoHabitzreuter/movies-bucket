@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { getMovies, removeMovie, updateMovie } from '../../api';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
+import { pipe, assoc, assocPath } from 'ramda';
 
 @Component({
   selector: 'movie-table',
@@ -28,6 +29,7 @@ export class MovieTableComponent {
       icon: 'pi pi-info-circle',
       accept: () => {
         removeMovie(id).then(() => {
+          this.movies = this.movies.filter(movie => movie.id !== id)
           this.messageService.add({severity:'success', summary:'Success!', detail:'The movie was deleted!'});
         })
       }
@@ -42,9 +44,13 @@ export class MovieTableComponent {
   rateMovie() {
     const movie = this.movies.find(movie => movie.id === this.ratingMovie.id)
 
-    updateMovie({ ...movie, seen: true, rating: { ...movie.rating, personal: this.ratingMovie.rating } }).then(() => {
-      this.messageService.add({severity:'success', summary:'Success!', detail:'You rated the movie succesfully!'})
-      this.showRatingModal = false
-    })
+    updateMovie(pipe(
+      assoc('seen', true),
+      assocPath(['rating', 'personal'], this.ratingMovie.rating)
+    )(movie))
+      .then(() => {
+        this.messageService.add({severity:'success', summary:'Success!', detail:'You rated the movie succesfully!'})
+        this.showRatingModal = false
+      })
   }
 }

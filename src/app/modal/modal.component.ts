@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { MessageService } from 'primeng/api';
 import { SelectItem } from 'primeng/api';
 import { storeMovie } from '../../api';
@@ -12,6 +12,8 @@ import { set, lensProp } from 'ramda'
 })
 export class MovieModalComponent {
   genres: SelectItem[];
+  
+  @Output() handleMovieStored = new EventEmitter<object>();
 
   constructor(private messageService: MessageService) {
     this.genres = [
@@ -32,13 +34,14 @@ export class MovieModalComponent {
     seen: false,
     genre: [],
     rating: {
-      imdb: 93,
-      personal: null
+      imdb: 93
     }
   }
 
   handleSubmit(){
-    storeMovie(set(lensProp('genre'), firstOrNull(this.movie.genre), this.movie)).then(() => {
+    const movie = set(lensProp('genre'), firstOrNull(this.movie.genre), this.movie)
+    storeMovie(movie).then(movie => {
+      this.handleMovieStored.emit(movie);
       this.messageService.add({severity:'success', summary:'Success!', detail:'The movie was stored'});
     })
   }
