@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { getMovies, removeMovie, updateMovie } from '../../api';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
-import { pipe, assoc, assocPath } from 'ramda';
+import { pipe, assoc, assocPath, append, sort, descend, path } from 'ramda';
 
 @Component({
   selector: 'movie-table',
@@ -19,7 +19,14 @@ export class MovieTableComponent {
   movies = []
 
   constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
-    getMovies().then(movies => this.movies = movies)
+    getMovies().then(movies => this.updateMovieList(movies))
+  }
+
+  updateMovieList(movies) {
+    this.movies = sort(
+      descend(path(['rating', 'imdb'])),
+      movies
+    )
   }
 
   deleteMovie(id) {
@@ -29,7 +36,7 @@ export class MovieTableComponent {
       icon: 'pi pi-info-circle',
       accept: () => {
         removeMovie(id).then(() => {
-          this.movies = this.movies.filter(movie => movie.id !== id)
+          this.updateMovieList(this.movies.filter(movie => movie.id !== id))
           this.messageService.add({severity:'success', summary:'Success!', detail:'The movie was deleted!'});
         })
       }
@@ -42,15 +49,20 @@ export class MovieTableComponent {
   }
 
   rateMovie() {
-    const movie = this.movies.find(movie => movie.id === this.ratingMovie.id)
-
-    updateMovie(pipe(
+    const movie = pipe(
       assoc('seen', true),
       assocPath(['rating', 'personal'], this.ratingMovie.rating)
-    )(movie))
+    )(this.movies.find(movie => movie.id === this.ratingMovie.id))
+
+    updateMovie(movie)
       .then(() => {
         this.messageService.add({severity:'success', summary:'Success!', detail:'You rated the movie succesfully!'})
         this.showRatingModal = false
+        this.updateMovieList(this.movies.map(m => m.id === movie.id ? movie : m))
       })
+  }
+
+  addMovie(movie) {
+    this.updateMovieList(append(movie, this.movies))
   }
 }

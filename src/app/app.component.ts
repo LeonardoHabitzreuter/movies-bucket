@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
+import { MovieTableComponent } from './table/table.component';
 
 @Component({
   selector: 'app-root',
@@ -6,9 +7,12 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  @ViewChild(MovieTableComponent)
+  private tableComponent: MovieTableComponent;
+
   title = 'Movies bucket';
 
   handleMovieStored(movie) {
-    console.log(movie)
+    this.tableComponent.addMovie(movie)
   }
 }
