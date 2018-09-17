@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { getMovies, removeMovie, updateMovie } from '../../api';
 import { MessageService } from 'primeng/api';
 import { ConfirmationService } from 'primeng/api';
@@ -10,7 +10,7 @@ import { pipe, assoc, assocPath, append, sort, descend, path } from 'ramda';
   styleUrls: ['./table.component.css'],
   providers: [MessageService, ConfirmationService]
 })
-export class MovieTableComponent {
+export class MovieTableComponent implements OnInit {
   showRatingModal = false
   ratingMovie = {
     id: null,
@@ -18,7 +18,9 @@ export class MovieTableComponent {
   }
   movies = []
 
-  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {
+  constructor(private messageService: MessageService, private confirmationService: ConfirmationService) {}
+
+  ngOnInit() {
     getMovies().then(movies => this.updateMovieList(movies))
   }
 
